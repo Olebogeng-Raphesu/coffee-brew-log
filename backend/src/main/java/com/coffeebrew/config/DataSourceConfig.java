@@ -8,8 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import javax.sql.DataSource;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 @Configuration
 @Profile("prod")
@@ -19,23 +17,43 @@ public class DataSourceConfig {
     private String databaseUrl;
 
     @Bean
-    public DataSource dataSource() throws URISyntaxException {
+    public DataSource dataSource() {
         // Render provides: postgresql://user:pass@host:port/db
-        // JDBC needs: jdbc:postgresql://host:port/db with user/pass as properties
+        // We need:        jdbc:postgresql://host:port/db with user/pass separate
         
-        URI dbUri = new URI(databaseUrl);
+        // Remove the protocol prefix
+        String withoutProtocol = databaseUrl.replace("postgresql://", "");
         
-        String username = dbUri.getUserInfo().split(":")[0];
-        String password = dbUri.getUserInfo().split(":")[1];
-        String jdbcUrl = "jdbc:postgresql://" + dbUri.getHost() + 
-                         (dbUri.getPort() == -1 ? "" : ":" + dbUri.getPort()) + 
-                         dbUri.getPath();
+        // Split by @ to separate credentials from host
+        String[] atSplit = withoutProtocol.split("@");
+        
+        String username = null;
+        String password = null;
+        String hostAndDb;
+        
+        if (atSplit.length == 2) {
+            // Has credentials: user:pass@host/db
+            String[] creds = atSplit[0].split(":");
+            username = creds[0];
+            password = creds[1];
+            hostAndDb = atSplit[1];
+        } else {
+            // No credentials in URL
+            hostAndDb = atSplit[0];
+        }
+        
+        String jdbcUrl = "jdbc:postgresql://" + hostAndDb;
 
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(jdbcUrl);
-        config.setUsername(username);
-        config.setPassword(password);
         config.setDriverClassName("org.postgresql.Driver");
+        
+        if (username != null) {
+            config.setUsername(username);
+        }
+        if (password != null) {
+            config.setPassword(password);
+        }
         
         return new HikariDataSource(config);
     }
