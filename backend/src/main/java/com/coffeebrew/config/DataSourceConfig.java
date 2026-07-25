@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import javax.sql.DataSource;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 @Configuration
 @Profile("prod")
@@ -17,16 +19,22 @@ public class DataSourceConfig {
     private String databaseUrl;
 
     @Bean
-    public DataSource dataSource() {
-        String jdbcUrl = databaseUrl;
+    public DataSource dataSource() throws URISyntaxException {
+        // Render provides: postgresql://user:pass@host:port/db
+        // JDBC needs: jdbc:postgresql://host:port/db with user/pass as properties
         
-        // Render provides postgresql:// but JDBC needs jdbc:postgresql://
-        if (databaseUrl != null && databaseUrl.startsWith("postgresql://")) {
-            jdbcUrl = "jdbc:" + databaseUrl;
-        }
+        URI dbUri = new URI(databaseUrl);
         
+        String username = dbUri.getUserInfo().split(":")[0];
+        String password = dbUri.getUserInfo().split(":")[1];
+        String jdbcUrl = "jdbc:postgresql://" + dbUri.getHost() + 
+                         (dbUri.getPort() == -1 ? "" : ":" + dbUri.getPort()) + 
+                         dbUri.getPath();
+
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(jdbcUrl);
+        config.setUsername(username);
+        config.setPassword(password);
         config.setDriverClassName("org.postgresql.Driver");
         
         return new HikariDataSource(config);
