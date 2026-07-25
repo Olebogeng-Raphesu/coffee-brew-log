@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="711bbdd9-0847-48f0-b245-711841262adb" name="Changes" comment="" />
+    <list default="true" id="711bbdd9-0847-48f0-b245-711841262adb" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/coffeebrew/controller/BrewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/coffeebrew/controller/BrewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/coffeebrew/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/coffeebrew/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/coffeebrew/repository/BrewRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/coffeebrew/repository/BrewRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/coffeebrew/service/BrewService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/coffeebrew/service/BrewService.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -29,9 +35,9 @@
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Java/full-stack-developer-bootcamp-Olebogeng-Raphesu",
-    "project.structure.last.edited": "Modules",
+    "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "copyright"
   }
 }]]></component>
